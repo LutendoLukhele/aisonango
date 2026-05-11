@@ -63,7 +63,7 @@ FLAG_SERVE_CONNECT_UI=false
 
 ## Runtime timeout and backpressure
 
-If your function runtime is exceeding your testing limits (for example 50 minutes), set an explicit runner timeout and cap concurrency:
+If your function runtime is exceeding your desired limits (for example 50 minutes), set an explicit runner timeout and cap concurrency:
 
 ```sh
 RUNNER_EXECUTION_TIMEOUT_SECS=3000
@@ -73,7 +73,8 @@ WEBHOOK_ENVIRONMENT_MAX_CONCURRENCY=25
 ON_EVENT_ENVIRONMENT_MAX_CONCURRENCY=25
 ```
 
-`RUNNER_EXECUTION_TIMEOUT_SECS` is applied to self-hosted non-Lambda runners and helps prevent long-running executions from growing unbounded.
+`RUNNER_EXECUTION_TIMEOUT_SECS` is applied to self-hosted non-Lambda runners.  
+When the limit is reached, the runner sends an abort signal to the execution and the task is reported as a failed execution.
 
 ## Can it run on GitHub?
 

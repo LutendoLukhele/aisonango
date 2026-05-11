@@ -414,6 +414,7 @@ class Kubernetes {
             { name: 'RUNNER_NODE_ID', value: `${node.id}` },
             { name: 'RUNNER_URL', value: runnerUrl },
             { name: 'IDLE_MAX_DURATION_MS', value: `${node.idleMaxDurationMs}` },
+            { name: 'RUNNER_EXECUTION_TIMEOUT_SECS', value: `${node.executionTimeoutSecs}` },
             { name: 'PERSIST_SERVICE_URL', value: getPersistAPIUrl() },
             { name: 'NANGO_TELEMETRY_SDK', value: process.env['NANGO_TELEMETRY_SDK'] || 'false' },
             ...(envs.DD_ENV ? [{ name: 'DD_ENV', value: envs.DD_ENV }] : []),
