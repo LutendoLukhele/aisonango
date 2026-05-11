@@ -44,6 +44,11 @@ services:
             - NANGO_LOGS_ES_URL=${NANGO_LOGS_ES_URL:-http://nango-elasticsearch:9200}
             - NANGO_LOGS_ES_USER
             - NANGO_LOGS_ES_PWD
+            - RUNNER_EXECUTION_TIMEOUT_SECS=${RUNNER_EXECUTION_TIMEOUT_SECS:--1}
+            - SYNC_ENVIRONMENT_MAX_CONCURRENCY
+            - ACTION_ENVIRONMENT_MAX_CONCURRENCY
+            - WEBHOOK_ENVIRONMENT_MAX_CONCURRENCY
+            - ON_EVENT_ENVIRONMENT_MAX_CONCURRENCY
             - FLAG_SERVE_CONNECT_UI=${FLAG_SERVE_CONNECT_UI:-true}
         volumes:
             - './packages/providers/providers.yaml:/app/nango/packages/providers/providers.yaml'

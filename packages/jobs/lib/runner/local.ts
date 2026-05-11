@@ -23,7 +23,7 @@ export const localNodeProvider: NodeProvider = {
         isTracingEnabled: false,
         isProfilingEnabled: false,
         idleMaxDurationMs: 0, // No auto-shutdown for local runners
-        executionTimeoutSecs: -1,
+        executionTimeoutSecs: envs.RUNNER_EXECUTION_TIMEOUT_SECS,
         provisionedConcurrency: -1
     },
     start: async (node) => {

@@ -159,6 +159,7 @@ export const ENVS = z.object({
     RUNNER_MEMORY_WARNING_THRESHOLD: z.coerce.number().optional().default(85),
     RUNNER_NAMESPACE: z.string().optional().default('nango'),
     RUNNER_HTTP_LOG_SAMPLE_PCT: z.coerce.number().optional(),
+    RUNNER_EXECUTION_TIMEOUT_SECS: z.coerce.number().optional().default(-1),
     NAMESPACE_PER_RUNNER: z.stringbool().optional().default(false),
     RUNNER_CLIENT_HEADERS_TIMEOUT_MS: z.coerce.number().optional().default(10_000),
     RUNNER_CLIENT_CONNECT_TIMEOUT_MS: z.coerce.number().optional().default(5000),

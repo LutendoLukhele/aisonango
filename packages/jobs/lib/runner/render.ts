@@ -31,7 +31,7 @@ export const renderNodeProvider: NodeProvider = {
         isTracingEnabled: false,
         isProfilingEnabled: false,
         idleMaxDurationMs: 1_800_000,
-        executionTimeoutSecs: -1,
+        executionTimeoutSecs: envs.RUNNER_EXECUTION_TIMEOUT_SECS,
         provisionedConcurrency: -1
     },
     waitUntilHealthy: async (opts: { nodeId: number; url: string; timeoutMs: number }) => {
