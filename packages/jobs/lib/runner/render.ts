@@ -31,7 +31,7 @@ export const renderNodeProvider: NodeProvider = {
         isTracingEnabled: false,
         isProfilingEnabled: false,
         idleMaxDurationMs: 1_800_000,
-        executionTimeoutSecs: -1,
+        executionTimeoutSecs: envs.RUNNER_EXECUTION_TIMEOUT_SECS,
         provisionedConcurrency: -1
     },
     waitUntilHealthy: async (opts: { nodeId: number; url: string; timeoutMs: number }) => {
@@ -68,6 +68,7 @@ export const renderNodeProvider: NodeProvider = {
                     { key: 'RUNNER_NODE_ID', value: `${node.id}` },
                     { key: 'RUNNER_URL', value: `http://${name}` },
                     { key: 'IDLE_MAX_DURATION_MS', value: `${node.idleMaxDurationMs}` },
+                    { key: 'RUNNER_EXECUTION_TIMEOUT_SECS', value: `${node.executionTimeoutSecs}` },
                     { key: 'PERSIST_SERVICE_URL', value: getPersistAPIUrl() },
                     { key: 'NANGO_TELEMETRY_SDK', value: process.env['NANGO_TELEMETRY_SDK'] || 'false' },
                     ...(envs.DD_ENV ? [{ key: 'DD_ENV', value: envs.DD_ENV }] : []),

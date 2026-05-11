@@ -23,7 +23,7 @@ export const localNodeProvider: NodeProvider = {
         isTracingEnabled: false,
         isProfilingEnabled: false,
         idleMaxDurationMs: 0, // No auto-shutdown for local runners
-        executionTimeoutSecs: -1,
+        executionTimeoutSecs: envs.RUNNER_EXECUTION_TIMEOUT_SECS,
         provisionedConcurrency: -1
     },
     start: async (node) => {
@@ -45,6 +45,7 @@ export const localNodeProvider: NodeProvider = {
                     RUNNER_NODE_ID: node.id.toString(),
                     RUNNER_URL: `http://localhost:${port}`,
                     IDLE_MAX_DURATION_MS: '0',
+                    RUNNER_EXECUTION_TIMEOUT_SECS: `${node.executionTimeoutSecs}`,
                     PROVIDERS_URL: getProvidersUrl(),
                     PROVIDERS_RELOAD_INTERVAL: envs.PROVIDERS_RELOAD_INTERVAL.toString(),
                     RUNNER_TYPE: 'LOCAL'

@@ -7,7 +7,7 @@ import superjson from 'superjson';
 
 import { abort } from './abort.js';
 import { jobsClient } from './clients/jobs.js';
-import { heartbeatIntervalMs } from './env.js';
+import { envs, heartbeatIntervalMs } from './env.js';
 import { exec } from './exec.js';
 import { logger } from './logger.js';
 import { abortControllers, locks, usage } from './state.js';
@@ -73,6 +73,21 @@ function startProcedure() {
             setImmediate(async () => {
                 let lastSuccessHeartbeatAt: number | null = null;
                 const abortController = new AbortController();
+                const executionTimeoutSecs = envs.RUNNER_EXECUTION_TIMEOUT_SECS;
+                const executionTimeout =
+                    executionTimeoutSecs > 0
+                        ? setTimeout(() => {
+                              const now = Date.now();
+                              logger.error('Execution timeout reached, aborting task', {
+                                  taskId,
+                                  executionTimeoutSecs,
+                                  executionDurationMs: now - startTime,
+                                  lastSuccessHeartbeatAt,
+                                  heartbeatAgeMs: lastSuccessHeartbeatAt ? now - lastSuccessHeartbeatAt : null
+                              });
+                              abortController.abort();
+                          }, executionTimeoutSecs * 1000)
+                        : null;
                 abortControllers.set(taskId, abortController);
                 const heartbeatTimeoutMs = arg.input.nangoProps.heartbeatTimeoutSecs
                     ? arg.input.nangoProps.heartbeatTimeoutSecs * 1000
@@ -105,6 +120,9 @@ function startProcedure() {
                         ...(execRes.isErr() ? { error: execRes.error.toJSON(), telemetryBag } : { output: execRes.value.output as any, telemetryBag })
                     });
                 } finally {
+                    if (executionTimeout) {
+                        clearTimeout(executionTimeout);
+                    }
                     clearInterval(heartbeat);
                     abortControllers.delete(taskId);
                     usage.untrack(taskId);
